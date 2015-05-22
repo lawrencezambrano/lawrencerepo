@@ -1,0 +1,56 @@
+<div>
+	<section id="cart_items">
+
+		<div class="container">
+			<h2 class="title text-center" style="margin-top:25px;">My Purchased Items</h2>
+
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="search_box pull-right">
+						<input type="text" placeholder="Search by item name" ng-model="txtSearch" ng-change="PerformSearch();" />
+					</div>
+				</div>
+			</div>
+
+			<div class="table-responsive cart_info">
+				
+				<table class="table table-condensed">
+
+					<thead>
+						<tr class="cart_menu">
+							<td class="image" style="width:20%;">Item</td>
+							<td class="description" style="width:60%;"></td>
+							<td class="price" style="width:20%;">Price</td>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr ng-repeat="item in returnedPurchasedData | orderBy:'lastModifiedDate':true">
+							<td class="cart_product">
+								<a href=""><img src="{{item.image}}" heigth="68" width="62" alt=""></a>
+							</td>
+							<td class="cart_description">
+								<h4><a href="">{{item.name}}</a></h4>
+								<p>{{item.description}}</p>
+							</td>
+							<td class="cart_price">
+								<p>{{item.price}}</p>
+							</td>
+
+						</tr>
+
+					</tbody>
+					<tr>
+						<td></td>
+						<td class="cart_description">
+							<h4><b>Total Spent Money</b></h4>
+						</td>
+						<td class="cart_price">
+							<h4><b>{{totalSpent}}</b></h4>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</section> <!--/#cart_items-->
+</div>

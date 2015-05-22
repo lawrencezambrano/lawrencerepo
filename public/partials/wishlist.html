@@ -1,0 +1,118 @@
+
+<script type="text/javascript">
+	// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// U P L O A D   F I L E   F U N C T I O N S
+
+    function PreviewImage(fileObjectName, previewObjectName) {
+
+        var oFReader = new FileReader();
+        oFReader.readAsDataURL(document.getElementById(fileObjectName).files[0]);
+
+        oFReader.onload = function (oFREvent) {
+            document.getElementById(previewObjectName).src = oFREvent.target.result;
+        };
+
+        $("#divPreview").show("Slow");
+    }
+
+</script>
+
+<div>
+	<input type="hidden" name="originalDefaultImage" id="originalDefaultImage" value="{{newWishlistItem.image}}">
+	<section>
+		<div class="container">
+			<div class="row">  	
+				<div class="col-sm-8">
+					<div class="contact-form">
+						<h2 class="title text-center">New Item</h2>
+						<div class="status alert alert-success" style="display: none"></div>
+				    	
+				            <div class="form-group col-md-6">
+				                <input type="text" placeholder="Name" ng-model="newWishlistItem.name" class="form-control" />
+				            </div>
+				            <div class="form-group col-md-6">
+				                <input type="text" placeholder="Price" ng-model="newWishlistItem.price" class="form-control" />
+				            </div>
+				            <div class="form-group col-md-12">
+				                <textarea name="message" id="message" required="required" class="form-control" rows="4" ng-model="newWishlistItem.description" placeholder="Description"></textarea>
+				            </div>                        
+				            <div class="form-group col-md-12">
+				            	<div ng-show="AddElement">
+	            					<button type="button" class="btn btn-primary pull-right" ng-click="ValidateItem(1);">
+										Create Item
+									</button>
+				            	</div>
+				            	<div ng-show="UpdateElement">
+	            					<button type="button" class="btn btn-primary pull-right" ng-click="ValidateItem(2);">
+										Update Item
+									</button>
+				            	</div>
+				            </div>
+				        
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="contact-info">
+						<h2 class="title text-center">Image</h2>
+						<button type="button" class="btn btn-default" onclick="javascript:$('#file1').click();">
+							Click here to select an image (Optional)
+						</button>
+						<input type="file" id="file1" name="file1" onchange="PreviewImage(this.name, 'uploadPreview1');" accept="image/x-png, image/jpeg" class="btn btn-default" style="display:none;">
+						<input type="hidden" ng-model="newWishlistItem.image" />
+						<canvas id="canvas" width="268px" height="249px" style="display:none;"></canvas>
+						<div style="display:none;" id="divPreview">
+							<img id="uploadPreview1" style="width: 268px; height: 249px;" src="{{newWishlistItem.image}}" />
+						</div>
+					</div>
+				</div>    			
+			</div>
+
+		</div>
+	</section>
+
+	<section>
+		<div class="container">
+			<div class="row">
+
+				<h2 class="title text-center" style="margin-top:25px;">Wishlist Items  |  My Budget {{currentBudget}}</h2>
+
+				<div class="col-sm-12">
+					<div class="search_box pull-right">
+						<input type="text" placeholder="Search by item name" ng-model="txtSearch" ng-change="PerformSearch();" />
+					</div>
+				</div>
+				
+				<div class="col-sm-12 padding-right" style="margin-top:25px;">
+					<div class="features_items"><!--wishlist_items-->
+
+						<div class="col-sm-3" ng-repeat="item in returnedWishlistData | orderBy:'lastModifiedDate':true">
+							<div class="product-image-wrapper">
+								<div class="single-products">
+										<div class="productinfo text-center">
+											<img src="{{item.image}}" alt="" />
+											<h2>${{item.price}}</h2>
+											<p>{{item.name}}</p>
+											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-dollar"></i>Move to purchased</a>
+										</div>
+										<div class="product-overlay">
+											<div class="overlay-content">
+												<h2>{{item.description}}</h2>
+												<p>{{item.lastModifiedDate | date:"medium"}}</p>
+												<a class="btn btn-default add-to-cart" ng-click="MoveItemToPurchased(item);"><i class="fa fa-dollar"></i>Move to purchased</a>
+											</div>
+										</div>
+								</div>
+								<div class="choose">
+									<ul class="nav nav-pills nav-justified">
+										<li><a href="" ng-click="GetItemForEdition(item);"><i class="fa fa-edit"></i>Edit item</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+
+					</div><!--wishlist_items-->		
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
